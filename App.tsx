@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import {
   Dimensions,
+  FlatList,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -73,21 +74,32 @@ export default function App() {
         paddingTop: Platform.OS === "android" ? 50 : 0,
       }}
     >
-      <ScrollView style={{ flex: 1 }}>
-        <StatusBar style="dark" />
-        <View
-          style={{
-            // backgroundColor: "pl",
-            alignItems: "center",
-            flex: 1,
-            gap: 15,
-          }}
-        >
-          {pokemonArray.map((pokemon, index) => (
+      <StatusBar style="dark" />
+      <View
+        style={{
+          // backgroundColor: "pl",
+          alignItems: "center",
+          flex: 1,
+          gap: 15,
+        }}
+      >
+        <FlatList
+          data={pokemonArray}
+          renderItem={({ item: pokemon, index }) => (
             <PokemonCard data={pokemon} key={index} />
-          ))}
-        </View>
-      </ScrollView>
+          )}
+          ItemSeparatorComponent={() => (
+            <View
+              style={{
+                marginVertical: 10,
+                borderTopWidth: 1,
+                borderColor: "grey",
+              }}
+            />
+          )}
+          ListEmptyComponent={() => <Text>No Items Found</Text>}
+        />
+      </View>
     </SafeAreaView>
   );
 }
